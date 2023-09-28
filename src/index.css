@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .font-pt {
+        font-family: 'PT Sans', sans-serif;
+    }
+
+    .font-lato {
+        font-family: 'Lato', sans-serif;
+    }
+
+    .page-padding {
+        @apply px-8 py-4 md:px-16 md:py-8 lg:px-20
+    }
+
+    .ele-padding {
+        @apply p-4 md:px-8 md:py-7
+    }
+
+    .page {
+        @apply page-padding flex justify-center items-center flex-col
+    }
+
+    .sm-border {
+        @apply border-2 border-black
+    }
+
+    .transit {
+        @apply transition-all ease-in-out duration-300
+    }
+
+    .card-grid {
+        @apply w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6
+    }
+
+    .card {
+        @apply cursor-pointer bg-orange-200
+    }
+
+    .popup-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.88);
+        z-index: 1;
+    }
+
+    .center-x {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .pizza-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sm-btn {
+        @apply cursor-pointer sm-border rounded-lg px-2 py-1 font-bold text-base
+    }
+
+    .md-btn {
+        @apply cursor-pointer sm-border rounded-lg px-3 py-2 font-bold text-lg mt-10 mb-5
+    }
+}
