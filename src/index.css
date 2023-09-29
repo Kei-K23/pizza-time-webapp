@@ -73,4 +73,12 @@
     .md-btn {
         @apply cursor-pointer sm-border rounded-lg px-3 py-2 font-bold text-lg mt-10 mb-5
     }
+
+    .hover-red {
+        @apply transit hover:bg-red-600 hover:scale-95 hover:text-white active:bg-red-700
+    }
+
+    .hover-orange {
+        @apply transit hover:bg-orange-500 hover:scale-95 hover:text-white active:bg-orange-600
+    }
 }

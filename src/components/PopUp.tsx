@@ -4,12 +4,18 @@ import { PopUpContext } from "../context/PopUpContext";
 import { PizzaItem, ToppingItem, pizzaCrusts, pizzaToppings } from "../pizza";
 import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
-import { findPizzaItem } from "../helper";
+import {
+  checkLocalStorageDataExist,
+  findPizzaItem,
+  setLocalStorageData,
+  storageDataType,
+} from "../helper";
 const PopUp = () => {
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const { state, dispatch } = useContext(PizzaContext);
   const { setPopUp } = useContext(PopUpContext);
   const { crust, topping, quantity } = state;
+
   const navigate = useNavigate();
   const downloadEleRef = useRef<HTMLDivElement | null>(null);
 
@@ -35,7 +41,14 @@ const PopUp = () => {
   };
 
   const handleClickFavourite = () => {
-    console.log("favourite");
+    const value: storageDataType = {
+      id: crypto.randomUUID(),
+      obj: {
+        crust,
+        topping,
+      },
+    };
+    setLocalStorageData("favPizza", value);
   };
 
   const handleClickConfirmOrder = () => {
@@ -55,9 +68,29 @@ const PopUp = () => {
   return (
     <div className="popup-layer">
       {!isConfirm && (
-        <div>
-          <button onClick={handleClickConfirmOrder}>Confirm order</button>
-          <button onClick={handleClickCancelOrder}>Cancel order</button>
+        <div className="fixed center-x top-[20%] z-10 bg-slate-100 w-[90%] sm:w-[552px] ele-padding">
+          <h2 className="text-2xl font-bold font-lato">
+            Your ordering {quantity}{" "}
+            <span className="text-orange-500">{crust}</span> with{" "}
+            <span className="text-orange-500">{topping}</span>
+          </h2>
+          <h3 className="font-pt text-xl font-bold mt-4">
+            Please confirm your order or cancel!
+          </h3>
+          <div className="mt-6 flex gap-6">
+            <button
+              className="sm-btn border-black hover-orange"
+              onClick={handleClickConfirmOrder}
+            >
+              Confirm order
+            </button>
+            <button
+              className="sm-btn border-black hover-red"
+              onClick={handleClickCancelOrder}
+            >
+              Cancel order
+            </button>
+          </div>
         </div>
       )}
 
@@ -95,17 +128,31 @@ const PopUp = () => {
             You successfully ordered {crust} with {topping}
           </p>
           <div className="flex items-center gap-4">
-            <button className="sm-btn border-black" onClick={handleClick}>
+            <button
+              title="close"
+              aria-label="close button"
+              className="sm-btn border-black transit hover:scale-95"
+              onClick={handleClick}
+            >
               Close
             </button>
             <button
-              className="sm-btn border-black"
+              title="download"
+              aria-label="download the result"
+              className="sm-btn border-black transit hover:scale-95"
               onClick={handleClickDownload}
             >
               <i className="fa-solid fa-download"></i> Download
             </button>
             <button
-              className="sm-btn border-black"
+              disabled={
+                checkLocalStorageDataExist("favPizza", crust, topping)
+                  ? true
+                  : false
+              }
+              title="favourite"
+              aria-label="add to favourite"
+              className="disabled:scale-100 disabled:bg-slate-300 sm-btn border-black transit hover:scale-95"
               onClick={handleClickFavourite}
             >
               <i className="fa-solid fa-heart"></i> Favourite

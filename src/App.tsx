@@ -7,6 +7,7 @@ import Order from "./routes/Order";
 import ErrorPage from "./routes/ErrorPage";
 import { PizzaContextProvider } from "./context/PizzaContext";
 import { PopUpContextProvider } from "./context/PopUpContext";
+import Favourite, { favouriteLoader } from "./routes/Favourite";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
       {
         path: "order",
         element: <Order />,
+      },
+      {
+        path: "fav",
+        element: <Favourite />,
+        loader: favouriteLoader,
       },
     ],
   },

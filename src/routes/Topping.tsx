@@ -31,6 +31,12 @@ const Topping = () => {
     dispatch({ type: "DEC_QUANTITY", payload: quantity - 1 });
   };
 
+  const handleClickForBackToCurst = () => {
+    dispatch({ type: "ADD_CRUST", payload: "" });
+    dispatch({ type: "ADD_TOPPINGS", payload: "" });
+    dispatch({ type: "INC_QUANTITY", payload: 1 });
+  };
+
   return (
     <div className="page">
       <h2 className="font-lato text-slate-700 font-extrabold text-4xl mb-10">
@@ -77,7 +83,11 @@ const Topping = () => {
       </h3>
       <ToppingList pizza={pizzaToppings} />
       <div className="flex items-center gap-4">
-        <LinkBtn route="/crust" text="Back to crust" />
+        <LinkBtn
+          onClick={handleClickForBackToCurst}
+          route="/crust"
+          text="Back to crust"
+        />
         {topping && (
           <button onClick={handleClick} className="md-btn border-black">
             Order
