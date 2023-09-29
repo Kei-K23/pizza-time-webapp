@@ -7,7 +7,7 @@ type LinkBtnType = {
 
 const LinkBtn = ({ route, text }: LinkBtnType) => {
   return (
-    <Link to={route} className="md-btn ">
+    <Link to={route} className="md-btn border-black">
       {text}
     </Link>
   );

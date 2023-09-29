@@ -16,7 +16,9 @@ const Card = ({ name, img, price }: CardProps) => {
   return (
     <div
       onClick={() => handleClick(name)}
-      className="card sm-border group relative "
+      className={`card sm-border ${
+        crust === name ? "border-orange-600 " : "border-black"
+      } group relative `}
     >
       <div className={`pizza-layer ${crust === name ? "flex" : "hidden"} `}>
         <i className="text-orange-600 text-9xl fa-solid fa-pizza-slice"></i>

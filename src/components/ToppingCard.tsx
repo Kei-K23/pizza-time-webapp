@@ -17,7 +17,9 @@ const ToppingCard = ({ name, description, price }: pizzaToppingsProps) => {
   return (
     <div
       onClick={() => handleClick(name)}
-      className="group card sm-border group relative"
+      className={`group card sm-border  group relative ${
+        topping === name ? "border-orange-600" : "border-black"
+      }`}
     >
       <div className={`pizza-layer ${topping === name ? "flex" : "hidden"} `}>
         <i className="text-orange-600 text-4xl fa-solid fa-pizza-slice"></i>

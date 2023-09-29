@@ -7,9 +7,9 @@ import LinkBtn from "../components/LinkBtn";
 import { PopUpContext } from "../context/PopUpContext";
 import { findPizzaItem } from "../helper";
 const Topping = () => {
-  const { state } = useContext(PizzaContext);
-  const { popUp, setPopUp, quantity, setQuantity } = useContext(PopUpContext);
-  const { crust, topping } = state;
+  const { state, dispatch } = useContext(PizzaContext);
+  const { popUp, setPopUp } = useContext(PopUpContext);
+  const { crust, topping, quantity } = state;
 
   const currentCrust = findPizzaItem<PizzaItem>(pizzaCrusts, crust);
   const currentTopping = findPizzaItem<ToppingItem>(pizzaToppings, topping);
@@ -21,14 +21,14 @@ const Topping = () => {
   };
 
   const handleClickQuantityInc = () => {
-    setQuantity((prev) => prev + 1);
+    dispatch({ type: "INC_QUANTITY", payload: quantity + 1 });
   };
 
   const handleClickQuantityDec = () => {
     if (quantity <= 1) {
       return;
     }
-    setQuantity((prev) => prev - 1);
+    dispatch({ type: "DEC_QUANTITY", payload: quantity - 1 });
   };
 
   return (
@@ -55,11 +55,17 @@ const Topping = () => {
       </div>
 
       <div className="flex items-center gap-6">
-        <button onClick={handleClickQuantityDec} className="sm-btn">
+        <button
+          onClick={handleClickQuantityDec}
+          className="sm-btn border-black"
+        >
           <span className="text-3xl">-</span>
         </button>
         <h3 className="text-xl font-semibold">{quantity}</h3>
-        <button onClick={handleClickQuantityInc} className="sm-btn">
+        <button
+          onClick={handleClickQuantityInc}
+          className="sm-btn border-black"
+        >
           <span className="text-3xl">+</span>
         </button>
       </div>
@@ -72,8 +78,8 @@ const Topping = () => {
       <ToppingList pizza={pizzaToppings} />
       <div className="flex items-center gap-4">
         <LinkBtn route="/crust" text="Back to crust" />
-        {crust && (
-          <button onClick={handleClick} className="md-btn">
+        {topping && (
+          <button onClick={handleClick} className="md-btn border-black">
             Order
           </button>
         )}
