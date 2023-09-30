@@ -12,6 +12,7 @@ import {
 } from "../helper";
 const PopUp = () => {
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
+  const btnRef = useRef<HTMLButtonElement | null>(null);
   const { state, dispatch } = useContext(PizzaContext);
   const { setPopUp } = useContext(PopUpContext);
   const { crust, topping, quantity } = state;
@@ -49,6 +50,9 @@ const PopUp = () => {
       },
     };
     setLocalStorageData("favPizza", value);
+    if (btnRef.current) {
+      btnRef.current.disabled = true;
+    }
   };
 
   const handleClickConfirmOrder = () => {
@@ -63,7 +67,10 @@ const PopUp = () => {
   const currentCrust = findPizzaItem<PizzaItem>(pizzaCrusts, crust);
 
   const currentTopping = findPizzaItem<ToppingItem>(pizzaToppings, topping);
-  const total = (currentCrust?.price + currentTopping?.price) * quantity;
+  let total = 0;
+  if (currentCrust && currentTopping) {
+    total = (currentCrust?.price + currentTopping?.price) * quantity;
+  }
 
   return (
     <div className="popup-layer">
@@ -145,14 +152,15 @@ const PopUp = () => {
               <i className="fa-solid fa-download"></i> Download
             </button>
             <button
+              ref={btnRef}
               disabled={
-                checkLocalStorageDataExist("favPizza", crust, topping)
+                checkLocalStorageDataExist("favPizza", crust, topping).id !== ""
                   ? true
                   : false
               }
               title="favourite"
               aria-label="add to favourite"
-              className="disabled:scale-100 disabled:bg-slate-300 sm-btn border-black transit hover:scale-95"
+              className="disabled:scale-100 disabled:bg-orange-500 sm-btn border-black transit hover:scale-95"
               onClick={handleClickFavourite}
             >
               <i className="fa-solid fa-heart"></i> Favourite

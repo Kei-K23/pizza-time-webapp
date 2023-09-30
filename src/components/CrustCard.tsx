@@ -25,12 +25,12 @@ const Card = ({ name, img, price }: CardProps) => {
       </div>
       <div className="overflow-hidden">
         <img
-          className="w-full h-[250px] group-hover:scale-110 transit "
+          className="w-full h-[180px] group-hover:scale-110 transit md:object-cover"
           src={img}
           alt={name}
         />
       </div>
-      <div className="flex justify-start items-start flex-col p-4 gap-3">
+      <div className="flex justify-start items-start flex-col p-4">
         <h3 className="text-green-600 font-serif text-2xl lg:text-3xl font-extrabold">
           $ {price}
         </h3>

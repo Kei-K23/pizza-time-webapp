@@ -66,6 +66,20 @@
         align-items: center;
     }
 
+    .rotate-fav {
+        transform: translateX(-20%) translateY(30%) rotate(140deg);
+    }
+
+    .fav-icon {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(220deg);
+    }
+
+    .rgba {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
     .sm-btn {
         @apply cursor-pointer sm-border rounded-lg px-2 py-1 font-bold text-base
     }

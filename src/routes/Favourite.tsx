@@ -1,46 +1,96 @@
-import { useLoaderData } from "react-router-dom";
-import { findPizzaItem, getLocalStorageData, storageDataType } from "../helper";
-import { useContext } from "react";
-import { PizzaContext } from "../context/PizzaContext";
-import { PizzaItem, ToppingItem, pizzaCrusts, pizzaToppings } from "../pizza";
-
-type StorageData = {
-  storageData: string;
-};
+import Lottie from "lottie-react";
+import {
+  deleteStorageData,
+  findPizzaItem,
+  getLocalStorageData,
+  storageDataType,
+} from "../helper";
+import { PizzaItem, pizzaCrusts } from "../pizza";
+import { useEffect, useState } from "react";
+import favPizzaAnimation from "../animation/fav_pizza.json";
+import ShowPizza from "../components/ShowPizza";
 
 const Favourite = () => {
-  //   const { state } = useContext(PizzaContext);
-  //   const { crust } = state;
+  const [data, setData] = useState<Array<storageDataType>>([]);
+  const [dataLength, setDataLength] = useState<number>(0);
+  const [selectedId, setSelectedId] = useState<string>("");
 
-  const rawStorageData = useLoaderData();
-  const storageData = rawStorageData as StorageData | undefined;
-  const data: Array<storageDataType> = [];
-  if (storageData) {
-    data.push(...JSON.parse(storageData.storageData));
-  } else {
-    console.error(
-      "Storage data is not available or does not match the expected type."
-    );
-  }
+  const handelClickFavDelete = (id: string) => {
+    const rawData = getLocalStorageData("favPizza");
+    const storageData = JSON.parse(rawData);
+    setDataLength(storageData.length);
+    if (id === selectedId) {
+      setSelectedId("");
+    }
+    deleteStorageData("favPizza", id);
+  };
+
+  const handleClickFavPizza = (id: string): void => {
+    setSelectedId(id);
+  };
+
+  useEffect(() => {
+    const rawStorageData: string = getLocalStorageData("favPizza");
+    setData(JSON.parse(rawStorageData));
+  }, [dataLength]);
 
   return (
-    <div className="page-padding">
-      {data.map((d) => {
-        const currentCrust = findPizzaItem<PizzaItem>(pizzaCrusts, d.obj.crust);
-        return (
-          <>
-            <img src={currentCrust.img} />
-            <h2>{d.obj.crust}</h2>
-          </>
-        );
-      })}
-    </div>
+    <>
+      {data.length > 0 ? (
+        <>
+          <ShowPizza id={selectedId} data={data} />
+          <div className="page-padding grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {data.map((d) => {
+              const currentCrust = findPizzaItem<PizzaItem>(
+                pizzaCrusts,
+                d.obj.crust
+              );
+              return (
+                <div
+                  key={d.id}
+                  className={`${
+                    selectedId === d.id && "ring-4 ring-red-500"
+                  } group cursor-pointer relative bg-slate-200 rounded-xl shadow-lg overflow-hidden  transit hover:shadow-none`}
+                  onClick={() => handleClickFavPizza(d.id)}
+                >
+                  <div className="transit group-hover:ring-2 group-hover:ring-red-400 absolute bg-red-500 w-40 h-10 rotate-fav top-0 left-0">
+                    <i className="relative fav-icon text-2xl text-orange-300 fa-solid fa-heart"></i>
+                  </div>
+                  <div
+                    aria-label="delete favourite pizza"
+                    title="delete"
+                    className="cursor-pointer absolute right-3 top-1 rgba w-10 h-10 flex justify-center items-center rounded-lg hover:scale-95"
+                    onClick={() => handelClickFavDelete(d.id)}
+                  >
+                    <i className="text-xl fa-solid fa-trash text-red-600 "></i>
+                  </div>
+                  <img
+                    className="w-full h-[150px]"
+                    src={currentCrust && currentCrust.img}
+                  />
+                  <h2 className="mx-4 my-2 font-pt text-lg font-bold">
+                    <span className="text-orange-500"> {d.obj.crust}</span> with{" "}
+                    <span className="text-orange-500"> {d.obj.topping}</span>
+                  </h2>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      ) : (
+        <div className="flex justify-center items-center flex-col">
+          <h2 className="text-xl font-pt text-center font-bold mb-4">
+            No favourite pizza yet!
+          </h2>
+          <Lottie
+            className="w-[200px]"
+            animationData={favPizzaAnimation}
+            loop={true}
+          />
+        </div>
+      )}
+    </>
   );
 };
 
 export default Favourite;
-
-export const favouriteLoader = () => {
-  const storageData: string = getLocalStorageData("favPizza");
-  return { storageData } as StorageData;
-};

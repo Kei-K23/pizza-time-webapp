@@ -8,7 +8,11 @@ type LinkBtnType = {
 
 const LinkBtn = ({ route, text, onClick }: LinkBtnType) => {
   return (
-    <Link onClick={onClick} to={route} className="md-btn border-black">
+    <Link
+      onClick={onClick}
+      to={route}
+      className="transit md-btn border-black hover:scale-95"
+    >
       {text}
     </Link>
   );

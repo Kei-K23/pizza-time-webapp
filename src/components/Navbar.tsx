@@ -11,11 +11,20 @@ const Navbar = () => {
           <Link
             aria-label="go to favourite page"
             to="/fav"
-            className="sm-btn border-orange-500 "
+            className="transit sm-btn lg:md-btn border-orange-500 hover:bg-orange-500"
           >
             <i className="fa-solid fa-heart"></i>{" "}
             <span className="text-lg">Fav</span>
           </Link>
+          <a
+            title="follow the link"
+            className="group ml-6 text-lg"
+            href="https://github.com/Kei-K23"
+            target="_blank"
+          >
+            <i className="group-hover:text-blue-500 transit fa-brands fa-github"></i>{" "}
+            Kei-K
+          </a>
         </div>
       </nav>
     </header>

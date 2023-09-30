@@ -10,11 +10,13 @@ const Topping = () => {
   const { state, dispatch } = useContext(PizzaContext);
   const { popUp, setPopUp } = useContext(PopUpContext);
   const { crust, topping, quantity } = state;
+  let total = 0;
 
   const currentCrust = findPizzaItem<PizzaItem>(pizzaCrusts, crust);
   const currentTopping = findPizzaItem<ToppingItem>(pizzaToppings, topping);
-
-  const total = (currentCrust?.price + currentTopping?.price) * quantity;
+  if (currentCrust && currentTopping) {
+    total = (currentCrust?.price + currentTopping?.price) * quantity;
+  }
 
   const handleClick = () => {
     popUp ? setPopUp(false) : setPopUp(true);
@@ -89,7 +91,10 @@ const Topping = () => {
           text="Back to crust"
         />
         {topping && (
-          <button onClick={handleClick} className="md-btn border-black">
+          <button
+            onClick={handleClick}
+            className="transit md-btn border-black hover:scale-95"
+          >
             Order
           </button>
         )}
