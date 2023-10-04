@@ -51,7 +51,7 @@ const ShowPizza = ({ id, data }: ShowPizzaProp) => {
   return (
     <div className="my-8 flex justify-center items-center flex-col">
       <div className="w-[90%] relative bg-orange-500 sm-border ele-padding flex justify-center items-center gap-4 mb-4">
-        {id ? (
+        {id && (
           <>
             <span className="px-3 py-1 bg-red-500 rounded-full absolute -top-5 -right-4 text-base lg:text-lg font-bold">
               {quantity}
@@ -68,10 +68,6 @@ const ShowPizza = ({ id, data }: ShowPizzaProp) => {
             <span className="text-3xl lg:text-5xl font-extrabold">=</span>
             <h3 className="text-xl font-bold font-serif">{total}</h3>
           </>
-        ) : (
-          <p className="font-pt font-bold">
-            Please select your favourite pizza to make order easily!
-          </p>
         )}
       </div>
 

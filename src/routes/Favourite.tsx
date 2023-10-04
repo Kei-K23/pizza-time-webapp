@@ -19,9 +19,6 @@ const Favourite = () => {
     const rawData = getLocalStorageData("favPizza");
     const storageData = JSON.parse(rawData);
     setDataLength(storageData.length);
-    if (id === selectedId) {
-      setSelectedId("");
-    }
     deleteStorageData("favPizza", id);
   };
 
@@ -32,13 +29,20 @@ const Favourite = () => {
   useEffect(() => {
     const rawStorageData: string = getLocalStorageData("favPizza");
     setData(JSON.parse(rawStorageData));
+    setSelectedId("");
   }, [dataLength]);
 
   return (
     <>
       {data.length > 0 ? (
         <>
-          <ShowPizza id={selectedId} data={data} />
+          {selectedId && selectedId !== "" ? (
+            <ShowPizza id={selectedId} data={data} />
+          ) : (
+            <p className="w-full bg-orange-500 sm-border ele-padding text-center mb-4 font-pt font-bold">
+              Please select your favourite pizza to make order easily!
+            </p>
+          )}
           <div className="page-padding grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {data.map((d) => {
               const currentCrust = findPizzaItem<PizzaItem>(
